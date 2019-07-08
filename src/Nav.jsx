@@ -27,6 +27,11 @@ export default () => (
           Dev Back
         </NavLink>
       </li>
+      <li className="nav-item">
+        <NavLink className="nav-link" to="/login" activeClassName="disabled">
+          Login
+        </NavLink>
+      </li>
     </ul>
   </nav>
 );

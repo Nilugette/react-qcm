@@ -7,6 +7,7 @@ import Home from "./Home";
 import Qcm from "./Qcm";
 import Genre from "./Genre";
 import Nav from "./Nav";
+import Auth from "./auth/Auth";
 
 class App extends React.Component {
   // Render
@@ -35,6 +36,7 @@ class App extends React.Component {
                 return <NotFound />;
               }}
             />
+            <Route path="/login" component={Auth} />
           </div>
         </div>
       </Router>
