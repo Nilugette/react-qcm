@@ -2,35 +2,43 @@ import React from "react";
 
 import Title from "./Title";
 import Question from "./Question";
-import QuestionAsync from "./QuestionAsync";
+import fetchQcm from "./api/fetchQcm";
+// import QuestionAsync from "./QuestionAsync";
 
 class Qcm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      qcms: [],
-      genres: [],
+      questions: [],
       selectedQuestionId: null
     };
 
     // bindings
     this.selectQuestion = this.selectQuestion.bind(this);
+    this.updateQuestions = this.updateQuestions.bind(this);
   }
 
   // Life cycle
   componentDidMount() {
-    const url = process.env.PUBLIC_URL + "/data/qcm.json";
-    fetch(url)
-      .then(r => r.json())
-      .then(data => {
+    this.updateQuestions(this.props.genreId);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.genreId !== this.props.genreId) {
+      this.updateQuestions(this.props.genreId);
+    }
+  }
+
+  updateQuestions(genreId) {
+    fetchQcm(this.props.genreId)
+      .then(questions => {
         this.setState({
-          qcms: data.qcm,
-          genres: data.genres
+          questions
         });
       })
       .catch(e => {
-        console.error("Error while fetching", url);
+        console.error("Error while fetching qcm");
         console.error(e);
       });
   }
@@ -46,7 +54,7 @@ class Qcm extends React.Component {
   render() {
     let question = null;
     if (this.state.selectedQuestionId) {
-      question = this.state.qcms.find(
+      question = this.state.questions.find(
         e => e.id === this.state.selectedQuestionId
       );
     }
@@ -55,7 +63,7 @@ class Qcm extends React.Component {
         <div className="row">
           <nav>
             <ul className="list-group col">
-              {this.state.qcms.map(qcm => (
+              {this.state.questions.map(qcm => (
                 <Title
                   key={`qcm-${qcm.id}`}
                   id={qcm.id}

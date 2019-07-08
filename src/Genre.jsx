@@ -1,33 +1,45 @@
 import React from "react";
-import fetchQcmByGenre from "./api/fetchQcmByGenre";
+import Qcm from "./Qcm";
+import fetchGenre from "./api/fetchGenre";
 
 class Genre extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      questions: []
+      genre: {
+        id: null,
+        name: ""
+      }
     };
+
+    this.updateGenre = this.updateGenre.bind(this);
   }
+
   componentDidMount() {
-    fetchQcmByGenre(this.props.match.params.id).then(questions =>
-      this.setState({ questions })
-    );
+    this.updateGenre(this.props.id);
   }
+
   componentDidUpdate(prevProps) {
-    if (prevProps.match.params.id !== this.props.match.params.id) {
-      fetchQcmByGenre(this.props.match.params.id).then(questions =>
-        this.setState({ questions })
-      );
+    if (prevProps.id !== this.props.id) {
+      this.updateGenre(this.props.id);
     }
   }
+
+  updateGenre(genreId) {
+    fetchGenre(genreId)
+      .then(genre => this.setState({ genre }))
+      .catch(e => {
+        console.error("Error while fetching genre");
+        console.error(e);
+      });
+  }
+
   // Render
   render() {
     return (
       <div>
-        <p>QCM par genre... {this.props.match.params.id}</p>
-        {this.state.questions.map(q => (
-          <div key={"question-" + q.id}>{q.title}</div>
-        ))}
+        <p>QCM par genre : {this.state.genre.name}</p>
+        <Qcm genreId={this.props.id} />
       </div>
     );
   }

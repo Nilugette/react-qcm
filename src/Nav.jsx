@@ -19,12 +19,12 @@ export default () => (
       </li>
       <li className="nav-item">
         <NavLink className="nav-link" to="/genre/1" activeClassName="disabled">
-          Front Dev
+          Dev Front
         </NavLink>
       </li>
       <li className="nav-item">
         <NavLink className="nav-link" to="/genre/2" activeClassName="disabled">
-          Back Dev
+          Dev Back
         </NavLink>
       </li>
     </ul>
