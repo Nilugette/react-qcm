@@ -1,9 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
 
 import Home from "./Home";
 import Qcm from "./Qcm";
+import Genre from "./Genre";
+import Nav from "./Nav";
 
 class App extends React.Component {
   // Render
@@ -12,36 +14,12 @@ class App extends React.Component {
       <Router>
         <div className="App">
           <header className="App-Header">
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-              <NavLink className="navbar-brand" to="/">
-                QCM React
-              </NavLink>
-              <ul className="nav">
-                <li className="nav-item">
-                  <NavLink
-                    className="nav-link"
-                    to="/"
-                    exact
-                    activeClassName="disabled"
-                  >
-                    Home
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
-                    className="nav-link"
-                    to="/qcm"
-                    activeClassName="disabled"
-                  >
-                    QCM
-                  </NavLink>
-                </li>
-              </ul>
-            </nav>
+            <Nav />
           </header>
           <div className="App-Content">
             <Route path="/" exact component={Home} />
             <Route path="/qcm/" component={Qcm} />
+            <Route path="/genre/:id" component={Genre} />
           </div>
         </div>
       </Router>
