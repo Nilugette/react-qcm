@@ -36,7 +36,7 @@ class App extends React.Component {
                 return <NotFound />;
               }}
             />
-            <Route path="/login" component={Auth} />
+            <Route path="/auth" component={Auth} />
           </div>
         </div>
       </Router>

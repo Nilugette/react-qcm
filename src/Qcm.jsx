@@ -1,5 +1,5 @@
 import React from "react";
-
+//import { firebase, database } from "./FirebaseConfig";
 import Title from "./Title";
 import Question from "./Question";
 import fetchQcm from "./api/fetchQcm";
@@ -8,6 +8,8 @@ import fetchQcm from "./api/fetchQcm";
 class Qcm extends React.Component {
   constructor(props) {
     super(props);
+
+
 
     this.state = {
       questions: [],
@@ -46,8 +48,9 @@ class Qcm extends React.Component {
   // Methods
   selectQuestion(id) {
     this.setState({
-      selectedQuestionId: id
+        selectedQuestionId: id
     });
+
   }
 
   // Render

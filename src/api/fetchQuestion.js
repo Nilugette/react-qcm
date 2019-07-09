@@ -8,7 +8,7 @@ function later(delay) {
 }
 
 export default id => {
-  let url = process.env.PUBLIC_URL + "/data/qcm.json";
+  const url = process.env.PUBLIC_URL + "/data/qcm.json";
   if (Math.random() > 0.99) {
     url = "";
   }

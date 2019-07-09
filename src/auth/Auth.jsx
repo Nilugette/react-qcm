@@ -1,6 +1,8 @@
 import React from "react";
+import { firebase } from "../FirebaseConfig";
 import Email from "../forms/Email";
 import Password from "../forms/Password";
+import { UserContext } from "../store/UserContext";
 
 const controls = {
   email: {
@@ -26,6 +28,7 @@ class Auth extends React.Component {
     this.state = controls;
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleInputChange(e) {
@@ -56,7 +59,17 @@ class Auth extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(
+        this.state.email.value,
+        this.state.password.value
+      )
+      .catch(console.error);
+  }
+
+  handleLogout() {
+    firebase.auth().signOut();
   }
 
   // Render
@@ -64,33 +77,46 @@ class Auth extends React.Component {
     const isValid = this.state.email.valid && this.state.password.valid;
     return (
       <div className="container">
-        <form onSubmit={this.handleSubmit}>
-          <h1>Identifiez-vous</h1>
-          <div className="form-group">
-            <label htmlFor="email">Email address</label>
-            <Email
-              {...this.state.email}
-              handleInputChange={this.handleInputChange}
-            />
+        {this.context.isLoggedIn ? (
+          <div>
+            <p>Vous êtes connecté.</p>
+            <button className="btn btn-primary" onClick={this.handleLogout}>
+              Se déconnecter
+            </button>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <Password
-              {...this.state.password}
-              handleInputChange={this.handleInputChange}
-            />
-          </div>
-          <button
-            disabled={isValid === false}
-            type="submit"
-            className="btn btn-primary"
-          >
-            Se connecter
-          </button>
-        </form>
+        ) : (
+          <form onSubmit={this.handleSubmit}>
+            <h1>Identifiez-vous</h1>
+            <div className="form-group">
+              <label htmlFor="email">Email address</label>
+              <Email
+                {...this.state.email}
+                handleInputChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <Password
+                {...this.state.password}
+                handleInputChange={this.handleInputChange}
+              />
+            </div>
+            <button
+              disabled={isValid === false}
+              type="submit"
+              className="btn btn-primary"
+            >
+              Se connecter
+            </button>
+          </form>
+        )}
       </div>
     );
   }
 }
+
+// Soit on utilise le context type pour y avoir accès via "this.context" (1 seul max)
+// Soit on utilise le composant "AuthWithContext" qui peut wrapper plusieurs contextes
+Auth.contextType = UserContext;
 
 export default Auth;
