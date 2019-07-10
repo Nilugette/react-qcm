@@ -1,0 +1,25 @@
+.Title {
+  color: #004085;
+  background-color: #b8daff;
+}
+
+.Title:hover {
+  color: #155724;
+  background-color: #c3e6cb;
+  cursor: pointer;
+}
+
+.Title.Title--selected {
+  color: #585810;
+  background-color: #e0e018;
+}
+
+.Title.Title--selected:hover {
+  color: #585810;
+  background-color: #e0e018;
+  cursor: default;
+}
+
+.Title > span {
+  margin-right: 0.5rem;
+}
